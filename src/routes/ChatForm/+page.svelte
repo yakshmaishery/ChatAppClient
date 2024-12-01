@@ -1,7 +1,6 @@
 <script lang="ts">
    export let data;
    let LoginID = data.LoginID
-   import {UserSocketID,ShareNavbarHeight} from '$lib/Stores'
    import {onMount} from 'svelte'
    import { io } from 'socket.io-client';
    import { Textarea, Alert, ToolbarButton } from 'flowbite-svelte';
@@ -24,8 +23,8 @@
    }
 </script>
 
-<div class="absolute bottom-0 start-0 z-20 w-full border-t border-gray-200">
-   <div class="chat-box" id="chat-box" style={`max-height:calc(90vh - ${$ShareNavbarHeight}px)`}>
+<div class="fixed bottom-0 start-0 z-20 w-full border-t border-gray-200">
+   <div class="chat-box" id="chat-box">
       {#each MessageList as  el}
          <div class={`message ${el.messageType == "Get"?"received":"sent"}`}>
             <div class="message-info">
@@ -68,6 +67,10 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
+}
+
+#chat-box{
+   max-height: 90vh;
 }
 
 /* Messages */

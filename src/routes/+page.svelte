@@ -8,8 +8,7 @@
    import { EnvelopeSolid } from 'flowbite-svelte-icons';
 </script>
 
-<div class="mb-6 mx-20">
-<div class="mb-6 mx-20">
+<div class="mx-3">
    <form use:enhance method="post" action="?/LoginAction">
       <Label for="input-group-1" class="block mb-2">Login ID</Label>
       <Input id="email" type="email" name="email" placeholder="name@gmail.com">
@@ -18,5 +17,4 @@
       <br/>
       <Button type="submit">Login In</Button>
    </form>
- </div>
- </div>
+</div>
