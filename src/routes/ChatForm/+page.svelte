@@ -6,13 +6,31 @@
    import { Textarea, Drawer, Button, DarkMode, ToolbarButton,Sidebar, SidebarWrapper, SidebarBrand, SidebarItem, SidebarGroup, Label } from 'flowbite-svelte';
    import { PaperPlaneOutline,BarsOutline,LockOpenSolid } from 'flowbite-svelte-icons';
    import { sineIn } from 'svelte/easing';
+   import Swal from 'sweetalert2'
    let socket:any;
    let SenderMessage:string = ''
    let MessageList: any[] = []
    onMount(() => {
       socket = io('https://chatappserver-1yf9.onrender.com/')
+      socket.emit("UserloggedIn",LoginID)
       socket.on("recivedMessage",(data:any) => {
          MessageList = [...MessageList,{senderID:data.senderID,senderEmail:data.senderEmail,senderMessage:data.senderMessage,messageType:"Get",MessageTimeStamp:new Date().toLocaleString()}]
+      })
+      socket.on("UserloggedInNotice",(data:any)=>{
+         Swal.fire({
+            icon:"info",
+            title:"Logged IN",
+            text:`Welcome ${data}`,
+            confirmButtonColor:"green"
+         })
+      })
+      socket.on("disconnectUser",(data:any)=>{
+         Swal.fire({
+            icon:"info",
+            title:"Logged OUT",
+            text:`User ${data} has been loggout`,
+            confirmButtonColor:"green"
+         })
       })
    })
 
