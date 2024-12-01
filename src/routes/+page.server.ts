@@ -2,6 +2,9 @@ import {redirect} from '@sveltejs/kit'
 import type { Action, Actions} from '@sveltejs/kit'
 
 export const actions:Actions = {
+    default: async (event) => {
+      // TODO log the user in
+    },
 
     LoginAction: async ({ request ,cookies}) => {
       const formData = await request.formData();
