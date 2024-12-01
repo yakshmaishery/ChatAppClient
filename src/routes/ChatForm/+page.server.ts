@@ -14,3 +14,15 @@ export async function load({ cookies }) {
 		LoginID
 	};
 }
+
+export const actions:Actions = {
+
+	LoginOutAction: async ({ request ,cookies}) => {
+		console.warn("Click here")
+		cookies.delete("LoginID",{httpOnly: true, maxAge: 60 * 60 * 24, sameSite: 'strict',
+			path: '/'})
+	  	throw redirect(302, "/");
+	},
+
+ };
+

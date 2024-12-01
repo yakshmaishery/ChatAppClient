@@ -12,7 +12,7 @@ export const actions:Actions = {
       }
         cookies.set("LoginID",email.toString(),{
            httpOnly: true, maxAge: 60 * 60 * 24, sameSite: 'strict',
-           path: ''
+           path: '/'
         })
 
         //console.log(`Email: ${email}`)

@@ -3,8 +3,9 @@
    let LoginID = data.LoginID
    import {onMount} from 'svelte'
    import { io } from 'socket.io-client';
-   import { Textarea, Alert, ToolbarButton } from 'flowbite-svelte';
-   import { ImageOutline, FaceGrinOutline, PaperPlaneOutline } from 'flowbite-svelte-icons';
+   import { Textarea, Drawer, Button, DarkMode, ToolbarButton,Sidebar, SidebarWrapper, SidebarBrand, SidebarItem, SidebarGroup, Label } from 'flowbite-svelte';
+   import { PaperPlaneOutline,BarsOutline,LockOpenSolid } from 'flowbite-svelte-icons';
+   import { sineIn } from 'svelte/easing';
    let socket:any;
    let SenderMessage:string = ''
    let MessageList: any[] = []
@@ -19,11 +20,22 @@
       if(socket){
          socket.emit("SendMessage",{ID:socket.id,EmailID:LoginID,Msg:SenderMessage})
          MessageList = [...MessageList,{senderID:socket.id,senderEmail:data.LoginID,senderMessage:SenderMessage,messageType:"Send",MessageTimeStamp:new Date().toLocaleString()}]
+         SenderMessage=""
       }
    }
+   let hidden1 = true;
+   let transitionParams = {
+    x: -320,
+    duration: 200,
+    easing: sineIn
+  };
+  let site = {
+    name: 'Flowbite-Svelte',
+    href: '/'
+  };
 </script>
 
-<div class="fixed bottom-0 start-0 z-20 w-full border-t border-gray-200">
+<div id="maincontainer">
    <div class="chat-box" id="chat-box">
       {#each MessageList as  el}
          <div class={`message ${el.messageType == "Get"?"received":"sent"}`}>
@@ -38,14 +50,17 @@
    <form class="shadow md:flex md:items-center md:justify-between md:p-0 dark:bg-gray-800 dark:border-gray-600">
       <label for="chat" class="sr-only">Your message</label>
       <div class="flex items-center px-3 py-2 rounded-lg bg-gray-50 dark:bg-gray-700" style="width: 100%;">
-        <ToolbarButton color="dark" class="text-gray-500 dark:text-gray-400">
+        <!-- <ToolbarButton color="dark" class="text-gray-500 dark:text-gray-400">
           <ImageOutline class="w-6 h-6" />
           <span class="sr-only">Upload image</span>
         </ToolbarButton>
         <ToolbarButton color="dark" class="text-gray-500 dark:text-gray-400">
           <FaceGrinOutline class="w-6 h-6" />
           <span class="sr-only">Add emoji</span>
-        </ToolbarButton>
+        </ToolbarButton> -->
+        <div class="text-center">
+         <Button on:click={() => (hidden1 = false)}><BarsOutline/></Button>
+       </div>
         <Textarea bind:value={SenderMessage} id="chat" class="mx-4 bg-white dark:bg-gray-800" rows={1} placeholder="Your message..." />
         <ToolbarButton on:click={SendBtn} type="submit" color="blue" class="rounded-full text-primary-600 dark:text-primary-500">
           <PaperPlaneOutline class="w-6 h-6 rotate-45" />
@@ -55,8 +70,38 @@
     </form>
 </div>
 
+<Drawer transitionType="fly" {transitionParams} bind:hidden={hidden1} id="sidebar1">
+   <Sidebar>
+      <SidebarWrapper>
+        <SidebarGroup>
+         <form method="post">
+         <p class="text-3xl dark:text-white font-extrabold">
+            Welcome
+            <DarkMode class="text-primary-500 dark:text-primary-600 border dark:border-gray-800" style="padding:0px" />
+         </p>
+         <Label>{LoginID}</Label>
+          <!-- <SidebarItem label="Logout">
+            <svelte:fragment slot="icon">
+              <LockOpenSolid class="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
+            </svelte:fragment>
+          </SidebarItem> -->
+          <br/>
+          <br/>
+          <Button type="submit" formaction="?/LoginOutAction" formmethod="POST">Logout</Button>
+         </form>
+         </SidebarGroup>
+      </SidebarWrapper>
+   </Sidebar>
+</Drawer>
+
 <style>
 
+#maincontainer{
+   height: 100vh;
+   width: 100vw;
+   display: grid;
+   grid-template-rows: auto max-content;
+}
 
 /* Chat Box */
 .chat-box {
@@ -70,7 +115,7 @@
 }
 
 #chat-box{
-   max-height: 90vh;
+   max-height: 100vh;
 }
 
 /* Messages */
