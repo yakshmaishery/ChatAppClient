@@ -16,9 +16,6 @@ export async function load({ cookies }) {
 }
 
 export const actions:Actions = {
-	default: async (event) => {
-		// TODO log the user in
-	},
 	LoginOutAction: async ({ request ,cookies}) => {
 		cookies.delete("LoginID",{httpOnly: true, maxAge: 60 * 60 * 24, sameSite: 'strict',
 			path: '/'})

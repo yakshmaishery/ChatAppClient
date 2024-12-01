@@ -7,6 +7,7 @@
    import { PaperPlaneOutline,BarsOutline,LockOpenSolid } from 'flowbite-svelte-icons';
    import { sineIn } from 'svelte/easing';
    import Swal from 'sweetalert2'
+    import { enhance } from '$app/forms';
    let socket:any;
    let SenderMessage:string = ''
    let MessageList: any[] = []
@@ -92,7 +93,7 @@
    <Sidebar>
       <SidebarWrapper>
         <SidebarGroup>
-         <form method="post">
+         <form method="post" use:enhance>
          <p class="text-3xl dark:text-white font-extrabold">
             Welcome
             <DarkMode class="text-primary-500 dark:text-primary-600 border dark:border-gray-800" style="padding:0px" />
